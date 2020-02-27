@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+  "name": "Fast String Converter",
+  "version": "1.0.0.0",
+
+  "browser_action": {
+    "default_title": "Turn off the light.",
+    "default_popup": "views/popup.html"
+  },
+  
+  "description": "",
+  "icons": {
+    "16": "extension_icons/youtubeplaylistfirstvideo-16.png",
+    "32": "extension_icons/youtubeplaylistfirstvideo-32.png",
+    "48": "extension_icons/youtubeplaylistfirstvideo-48.png",
+    "128": "extension_icons/youtubeplaylistfirstvideo-128.png"
+  },
+
+  "permissions": [
+    "activeTab",
+    "clipboardRead",
+    "clipboardWrite",
+	  "tabs"
+  ],
+  
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+
+}

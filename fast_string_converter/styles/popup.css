@@ -1,0 +1,15 @@
+.content {
+
+	width: 600px;
+	height: 800px;
+
+}
+
+.content * {
+	margin-top: 15px;
+}
+
+.content textarea {
+	width: inherit; 
+	height: 100px;
+}
