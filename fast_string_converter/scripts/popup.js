@@ -1,50 +1,78 @@
 $( document ).ready(function() {
 	
-	var pasteTextArea = $('#pasteTextArea');
-	var copyTextArea = $('#copyTextArea');
-
-	function copyToClipboardAndPasteToTextArea() {
-
-		// Copy
-		copyTextArea.select();
-		document.execCommand('copy');
-
-		// Paste
-		pasteTextArea.val(copyTextArea.val());
-
-	}
+	var clipboardTextArea = $('#clipboardTextArea');
+	var previousTextArea = $('#previousTextArea');
 
 	// String conversion functions
 
-	function allLowerCase() {
-		copyTextArea.val(pasteTextArea.val().toLowerCase());
+	function allLowerCase(t) {
+		return t.toLowerCase();
 	}
 
-	function allUpperCase() {
-		copyTextArea.val(pasteTextArea.val().toUpperCase());
+	function allUpperCase(t) {
+		return t.toUpperCase();
 	}
 
-	function sentenceType() {
-		let clipboardText = pasteTextArea.val();
-		copyTextArea.val(clipboardText.charAt(0).toUpperCase() + clipboardText.slice(1) + (clipboardText.endsWith('.') ? "" : '.'));
+	function sentenceType(t) {
+		return t.charAt(0).toUpperCase() + t.slice(1) + (t.endsWith('.') ? "" : '.');
 	}
 
-	function firstLettersUpperCase() {
-		copyTextArea.val(pasteTextArea.val().split(' ').map(w =>  w.charAt(0).toUpperCase() + w.substring(1)).join(' '));
+	function firstLettersUpperCase(t) {
+		return t.split(' ').map(w =>  w.charAt(0).toUpperCase() + w.substring(1)).join(' ');
 	}
 
-	function alternateCase() {
-		copyTextArea.val(pasteTextArea.val().split('').map(w =>  {if (w == w.toUpperCase()) {return w.toLowerCase()} else { return w.toUpperCase() }} ).join(''));
+	function alternateCase(t) {
+		return t.split('').map(w =>  {if (w == w.toUpperCase()) {return w.toLowerCase()} else { return w.toUpperCase() }} ).join('');
+	}
+	
+	function underscoresToSpaces(t) {
+		return t.replace(/_/g, ' ');
 	}
 
-	// The text contained in the clipboard is pasted to the pasteTextArea when the popup is opened.
-	pasteTextArea.select();
+	function spacesToUnderscores(t) {
+		return t.replace(/ /g,"_");
+	}
+
+	function spacesToCaps(t) {
+		return t.split(' ').map(w =>  w.charAt(0).toUpperCase() + w.substring(1)).join('');
+	}
+
+	function capsToSpaces(t) {
+		return t.match(/[A-Z][a-z]+|[0-9]+/g).join(" ");
+	}
+
+
+	function animateClipboardTextAreaBackground() {
+
+		// If the textarea is being animated, this animation is stopped and the ones that could be in queue are removed.
+		if (clipboardTextArea.css('backgroundColor') != 'rgb(255, 255, 255)') {
+			clipboardTextArea.stop();
+			clipboardTextArea.css("background-color", "white");
+			clipboardTextArea.clearQueue();
+		}
+
+		clipboardTextArea.animate({backgroundColor: '#6CE679'}, "fast");
+		clipboardTextArea.animate({backgroundColor: 'white'}, "slow");
+	} 
+
+	// The text contained in the clipboard is pasted to clipboardTextArea when the popup is opened.
+	clipboardTextArea.select();
 	document.execCommand('paste');
 
-	$("input").click(function()
+	// Buttons are assigned with their corresponding functions.
+	$("button").click(function()
 	{ 
-		eval(this.id + "()");
-		copyToClipboardAndPasteToTextArea();
+		// Store the text in the bottom textarea before the transformation
+		previousTextArea.val(clipboardTextArea.val());
+
+		// Execute function
+		eval("clipboardTextArea.val(" + this.id + "(clipboardTextArea.val()))");
+		animateClipboardTextAreaBackground();
+
+		// Copy converted text to clipboard
+		clipboardTextArea.select();
+		document.execCommand('copy');
+		window.getSelection().removeAllRanges();
 	});
 
 });
