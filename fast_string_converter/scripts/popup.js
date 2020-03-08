@@ -38,7 +38,7 @@ $( document ).ready(function() {
 	}
 
 	function capsToSpaces(t) {
-		return t.match(/[A-Z][a-z]+|[0-9]+/g).join(" ");
+		return t.split(/(?=[A-Z])/).join(" ").toLowerCase();
 	}
 
 
