@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Fast String Converter",
-  "version": "1.0.0.0",
+  "version": "1.0.0.1",
 
   "browser_action": {
     "default_title": "Turn off the light.",
@@ -17,10 +17,8 @@
   },
 
   "permissions": [
-    "activeTab",
     "clipboardRead",
-    "clipboardWrite",
-	  "tabs"
+    "clipboardWrite"
   ],
   
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
